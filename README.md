@@ -26,6 +26,7 @@ The options for compiling WRF and WPS are configured as recommended in the [WRF 
    ```bash
    docker pull bhanu348/wrf_image:gcc9
    ```
+   This command will download the wrf_image tagged with gcc9 from the Docker registry specified at [Docker Hub](https://hub.docker.com/repository/docker/bhanu348/wrf_image/general).
 
 2. **Run the Container**
    ```bash

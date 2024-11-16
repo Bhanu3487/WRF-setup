@@ -5,6 +5,7 @@
 This repository provides two simple methods to set up WRF and WPS.
 1. **Using Docker (Recommended)**
 2. **By Running a Script (Manual Setup)**
+   
 The options for compiling WRF and WPS are configured as recommended in the [WRF Compilation Tutorial](https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compilation_tutorial.php).
 
 ### WRF and WPS Compilation Options
@@ -62,7 +63,7 @@ This method provides more flexibility to choose suitable options for WRF and WPS
 
 ---
 
-### Verify WRF and WPS installations
+## Verify WRF and WPS installations
    - **WRF Verification**
      ```bash
      cd wrf/WRF
@@ -84,7 +85,7 @@ This method provides more flexibility to choose suitable options for WRF and WPS
      The above steps will confirm that the executable files are not zero-sized.
 
 ---
-### Run Simulation
+## Run Simulation
 
 
 

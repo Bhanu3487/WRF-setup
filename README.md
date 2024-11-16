@@ -2,24 +2,20 @@
 
 # Setting Up WRF (Weather Research and Forecasting Model)
 
-This repository provides two simple methods to set up WRF and WPS using **gcc:9.4.0**. The setup options can be extended to later versions of gcc in the future.
-
-## Methods Overview
-
+This repository provides two simple methods to set up WRF and WPS.
 1. **Using Docker (Recommended)**
 2. **By Running a Script (Manual Setup)**
-
----
-
-## Method 1: Using Docker (Recommended)
-
 The options for compiling WRF and WPS are configured as recommended in the [WRF Compilation Tutorial](https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compilation_tutorial.php).
 
 ### WRF and WPS Compilation Options
 - **WRF**: 34 (dmpar) followed by 1 (default)
 - **WRF Compilation Case**: `em_real`
 - **WPS**: 1 (serial and grib2)
+  
+A sample simulation script is also provided, along with tests. The sample simulation is from [ARW Online Tutorial](https://www2.mmm.ucar.edu/wrf/OnLineTutorial/CASES/SingleDomain/index.php), except the end date is changed from  2016-10-08_00 to  2016-10-06_06 (namelist is set accordingly). Currenly, both methods are compatible with **gcc:9.4.0**, the setup options can be extended to later versions of gcc in the future. 
 
+---
+## Method 1: Using Docker 
 ### Steps to Follow
 
 1. **Pull the Image from Docker Registry**
@@ -32,29 +28,6 @@ The options for compiling WRF and WPS are configured as recommended in the [WRF 
    ```bash
    docker run -it bhanu348/wrf_image:gcc9 /bin/bash
    ```
-
-3. **Verify WRF and WPS Installations**
-
-   - **WRF Verification**
-     ```bash
-     cd wrf/WRF
-     ls -ls main/*.exe
-     ```
-     You should see:
-     - `wrf.exe` (model executable)
-     - `real.exe` (real data initialization)
-     - `ndown.exe` (one-way nesting)
-     - `tc.exe` (for TC bogusing - serial only)
-
-   - **WPS Verification**
-     ```bash
-     cd ../WPS
-     ls -ls geogrid/src/geogrid.exe
-     ls -ls metgrid/src/metgrid.exe
-     ls -ls ungrib/src/ungrib.exe
-     ```
-     The above steps will confirm that the executable files are not zero-sized.
-
 ---
 
 ## Method 2: By Running a Script
@@ -88,5 +61,30 @@ This method provides more flexibility to choose suitable options for WRF and WPS
    ```
 
 ---
+
+### Verify WRF and WPS installations
+   - **WRF Verification**
+     ```bash
+     cd wrf/WRF
+     ls -ls main/*.exe
+     ```
+     You should see:
+     - `wrf.exe` (model executable)
+     - `real.exe` (real data initialization)
+     - `ndown.exe` (one-way nesting)
+     - `tc.exe` (for TC bogusing - serial only)
+
+   - **WPS Verification**
+     ```bash
+     cd ../WPS
+     ls -ls geogrid/src/geogrid.exe
+     ls -ls metgrid/src/metgrid.exe
+     ls -ls ungrib/src/ungrib.exe
+     ```
+     The above steps will confirm that the executable files are not zero-sized.
+
+---
+### Run Simulation
+
 
 

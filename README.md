@@ -30,7 +30,7 @@ The options for compiling WRF and WPS are configured as recommended in the [WRF 
 
 2. **Run the Container**
    ```bash
-   docker run -it bhanu348/wrf_image:gcc9
+   docker run -it bhanu348/wrf_image:gcc9 /bin/bash
    ```
 
 3. **Verify WRF and WPS Installations**

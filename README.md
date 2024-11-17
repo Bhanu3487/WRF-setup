@@ -97,8 +97,12 @@ This method provides more flexibility to choose suitable options for WRF and WPS
    ```bash
    cd scripts
    ./run_sim.sh
-This script alone takes around 1 hour.
+This script takes around 1 hour.
 
-The script will execute the necessary WRF and WPS programs in the following order: ungrib, geogrid, metgrid, real (inside wrf.sh), and wrf. It will also ensure the correct environment variables are set and that the required terrestrial data is downloaded (~28 GB). 
+4. **Expected Output**
+wrfout_d01_2016-10-06_00:00:00 generated and verified successfully.
+
+The script will execute the necessary WRF and WPS programs in the following order: ungrib, geogrid, metgrid, real (inside wrf.sh), and wrf. It will also ensure the correct environment variables are set and that the required terrestrial data is downloaded (~28 GB).
+
 ---
 

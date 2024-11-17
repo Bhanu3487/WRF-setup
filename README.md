@@ -87,5 +87,18 @@ This method provides more flexibility to choose suitable options for WRF and WPS
 ---
 ## Run Simulation
 
+1. **Using Docker**  
+   If using Docker, the `scripts` folder is already present. Proceed to step 3.
 
+2. **Without Docker**  
+   If not using Docker, download the `scripts` folder to the same directory level as `WRF` and `WPS`.
+
+3. **Navigate to the `scripts` directory**  
+   ```bash
+   cd scripts
+   ./run_sim.sh
+This script alone takes around 1 hour.
+
+The script will execute the necessary WRF and WPS programs in the following order: ungrib, geogrid, metgrid, real (inside wrf.sh), and wrf. It will also ensure the correct environment variables are set and that the required terrestrial data is downloaded (~28 GB). 
+---
 

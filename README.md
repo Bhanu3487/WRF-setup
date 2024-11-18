@@ -88,10 +88,12 @@ This method provides more flexibility to choose suitable options for WRF and WPS
 ## Run Simulation
 
 1. **Using Docker**  
-   If using Docker, the `scripts` folder is already present. Proceed to step 3.
+   If using Docker, the 'run_test.sh' file is already present. Proceed to step 3.
 
 2. **Without Docker**  
-   If not using Docker, download the `scripts` folder to the same directory level as `WRF` and `WPS`.
+   If not using Docker, download the 'env_var.sh', 'data.sh' and 'run_test.sh' file to the same directory level as `WRF` and `WPS`. namelist.wps in /WPS and namelist.input in /WRF/test/em_real are already matching with the ones provided in the repository for Hurricane Matthew.
+
+'env_var.sh' needs to be run first, it sets the necessary paths and sources them to bashrc. Then run data.sh which downloads the necessary Terrestrial data files required by geogrid, it takes up 28GB and approx. 40 minutes to run. These 2 steps need to be done only once in your environment.
 
 3. **Navigate to the `scripts` directory**  
    ```bash

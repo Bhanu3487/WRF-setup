@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd WPS/DATA/Man_Static_hres
+cd DATA/Man_Static_hres
 
 # albedo_modis
 wget https://www2.mmm.ucar.edu/wrf/src/wps_files/albedo_modis.tar.bz2

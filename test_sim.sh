@@ -15,5 +15,4 @@ else
   echo "The NetCDF files are different."
 fi
 
-# Clean up temporary files
-rm file1.txt file2.txt
+

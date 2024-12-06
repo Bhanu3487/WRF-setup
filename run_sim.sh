@@ -1,6 +1,7 @@
-#! bin/bash/
+#!/bin/bash
 
 # ungrib: Unpack input GRIB data
+cd ..
 mkdir -p DATA
 
 if [ ! -d "DATA/matthew" ]; then

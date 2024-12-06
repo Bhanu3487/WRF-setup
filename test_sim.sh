@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define file paths directly
-file1="/home/bhanu.repalle/Output_files/wrfout_d01_2016-10-06_00:00:00" #expected
+file1="/wrf/Output_files/wrfout_d01_2016-10-06_00:00:00" #expected
 file2="/wrf/WRF/test/em_real/wrfout_d01_2016-10-06_00:00:00" #simularion output
 
 # Use ncdump to compare the two NetCDF files

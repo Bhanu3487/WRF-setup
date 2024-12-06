@@ -22,7 +22,7 @@
  truelat1  =  30.0,
  truelat2  =  60.0,
  stand_lon = -75.0,
- geog_data_path = 'Man_Static_hres'
+ geog_data_path = '../DATA/Man_Static_hres'
 /
 
 &ungrib

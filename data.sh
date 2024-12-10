@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Directory where files are being managed
-cd Man_Static_hres || { echo "Failed to change to directory 'Man_Static_hres'. Exiting."; exit 1; }
+cd ../DATA/Man_Static_hres || { echo "Failed to change to directory 'Man_Static_hres'. Exiting."; exit 1; }
 
 # Function to download and extract a file
 download_and_extract() {

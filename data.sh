@@ -1,23 +1,43 @@
 #!/bin/bash
 
 # Directory where files are being managed
-cd ../DATA/Man_Static_hres || { echo "Failed to change to directory 'Man_Static_hres'. Exiting."; exit 1; }
+# cd Man_Static_hres || { echo "Failed to change to directory 'Man_Static_hres'. Exiting."; exit 1; }
+cd ../DATA/
+mkdir -p Man_Static_hres && cd Man_Static_hres || { echo "Failed to create or change to directory 'Man_Static_hres'. Exiting."; exit 1; }
 
-# Function to download and extract a file
-download_and_extract() {
+# Function to download and verify file size
+download_and_verify() {
     local url=$1
-    local filename=$(basename "$url") # Extract the file name from the URL
+    local filename=$(basename "$url")
 
     # Check if the file already exists
-    if [[ -f "${filename%.tar.bz2}" ]]; then
-        echo "File ${filename%.tar.bz2} already exists. Skipping extraction."
-        return 0
-    fi
+    if [[ -f "$filename" ]]; then
+        echo "File $filename exists. Verifying size..."
+        local remote_size=$(curl -sI "$url" | awk '/Content-Length/ {print $2}' | tr -d '\r')
+        local local_size=$(stat -c%s "$filename")
 
-    # Check if the compressed file exists
-    if [[ ! -f "$filename" ]]; then
+        if [[ "$local_size" -eq "$remote_size" ]]; then
+            echo "File $filename is complete."
+        else
+            echo "File $filename is incomplete or corrupted. Re-downloading..."
+            rm -f "$filename"
+            wget "$url" || { echo "Failed to download $filename. Exiting."; exit 1; }
+        fi
+    else
+        # Download the file if it doesn't exist
         echo "Downloading $filename..."
         wget "$url" || { echo "Failed to download $filename. Exiting."; exit 1; }
+    fi
+}
+
+# Function to extract a file
+extract_file() {
+    local filename=$1
+
+    # Check if the extracted directory already exists
+    if [[ -d "${filename%.tar.bz2}" ]]; then
+        echo "Directory ${filename%.tar.bz2} already exists. Skipping extraction."
+        return 0
     fi
 
     # Extract the file
@@ -51,7 +71,8 @@ files=(
 
 # Loop through the files and process them
 for file_url in "${files[@]}"; do
-    download_and_extract "$file_url"
+    download_and_verify "$file_url"
+    extract_file "$(basename "$file_url")"
 done
 
 echo "All Static Data files processed successfully."

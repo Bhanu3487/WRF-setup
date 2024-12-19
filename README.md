@@ -1,34 +1,37 @@
-# WRF-setup
+# WRF-Setup
 
-# Setting Up WRF (Weather Research and Forecasting Model)
+## Setting Up WRF (Weather Research and Forecasting Model)
 
-This repository provides two simple methods to set up WRF and WPS.
+This repository provides two simple methods to set up WRF and WPS:
 1. **Using Docker (Recommended)**
 2. **By Running a Script (Manual Setup)**
-   
-The options for compiling WRF and WPS are configured as recommended in the [WRF Compilation Tutorial](https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compilation_tutorial.php).
+
+It also helps in running and testing a sample simulation.
+
+The options for compiling WRF and WPS are configured as recommended in the [WRF Compilation Tutorial](https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compilation_tutorial.php). The sample simulation follows the [Online Tutorial](https://www2.mmm.ucar.edu/wrf/OnLineTutorial/CASES/SingleDomain/index.php), with the end date modified from `2016-10-08_00` to `2016-10-06_03` (namelist adjusted accordingly). Currently, both methods are compatible with **gcc:9.4.0**, and the setup options can be extended to later versions of GCC in the future.
 
 ### WRF and WPS Compilation Options
 - **WRF**: 34 (dmpar) followed by 1 (default)
 - **WRF Compilation Case**: `em_real`
 - **WPS**: 1 (serial and grib2)
-  
-A sample simulation script is also provided, along with tests. The sample simulation is from [ARW Online Tutorial](https://www2.mmm.ucar.edu/wrf/OnLineTutorial/CASES/SingleDomain/index.php), except the end date is changed from  2016-10-08_00 to  2016-10-06_06 (namelist is set accordingly). Currenly, both methods are compatible with **gcc:9.4.0**, the setup options can be extended to later versions of gcc in the future. 
 
 ---
-## Method 1: Using Docker 
+## Method 1: Using Docker
 ### Steps to Follow
+1. **Set Up Rootless Docker**
+   Follow the "Set Up Rootless Docker" section in this [Docker Cheatsheet](https://patel-zeel.github.io/blog/posts/docker_cheatsheet.html).
 
-1. **Pull the Image from Docker Registry**
+2. **Pull the Image from Docker Registry**
    ```bash
-   docker pull bhanu348/wrf_image:gcc9
+   docker pull bhanu348/wrf_sim:dmpar
    ```
-   This command will download the wrf_image tagged with gcc9 from the Docker registry specified at [Docker Hub](https://hub.docker.com/repository/docker/bhanu348/wrf_image/general).
+   This command downloads the Docker image tagged with `dmpar` from the [Docker Hub](https://hub.docker.com/repository/docker/bhanu348/wrf_image/general).
 
-2. **Run the Container**
+3. **Run the Container**
    ```bash
-   docker run -it bhanu348/wrf_image:gcc9 /bin/bash
+   docker run -it bhanu348/wrf_sim:dmpar /bin/bash
    ```
+
 ---
 
 ## Method 2: By Running a Script
@@ -63,48 +66,92 @@ This method provides more flexibility to choose suitable options for WRF and WPS
 
 ---
 
-## Verify WRF and WPS installations
-   - **WRF Verification**
-     ```bash
-     cd wrf/WRF
-     ls -ls main/*.exe
-     ```
-     You should see:
-     - `wrf.exe` (model executable)
-     - `real.exe` (real data initialization)
-     - `ndown.exe` (one-way nesting)
-     - `tc.exe` (for TC bogusing - serial only)
+## Verifying WRF and WPS Installations
 
-   - **WPS Verification**
-     ```bash
-     cd ../WPS
-     ls -ls geogrid/src/geogrid.exe
-     ls -ls metgrid/src/metgrid.exe
-     ls -ls ungrib/src/ungrib.exe
-     ```
-     The above steps will confirm that the executable files are not zero-sized.
+### WRF Verification
+```bash
+cd wrf/WRF
+ls -ls main/*.exe
+```
+You should see the following executables:
+- `wrf.exe` (model executable)
+- `real.exe` (real data initialization)
+- `ndown.exe` (one-way nesting)
+- `tc.exe` (for TC bogusing - serial only)
+
+### WPS Verification
+```bash
+cd ../WPS
+ls -ls geogrid/src/geogrid.exe
+ls -ls metgrid/src/metgrid.exe
+ls -ls ungrib/src/ungrib.exe
+```
+Ensure that the executable files are not zero-sized.
 
 ---
-## Run Simulation
 
-1. **Using Docker**  
-   If using Docker, the 'run_test.sh' file is already present. Proceed to step 3.
+## Running a Simulation
 
-2. **Without Docker**  
-   If not using Docker, download the 'env_var.sh', 'data.sh' and 'run_test.sh' file to the same directory level as `WRF` and `WPS`. namelist.wps in /WPS and namelist.input in /WRF/test/em_real are already matching with the ones provided in the repository for Hurricane Matthew.
+In the Docker image, all the required files are organized into proper directories. If installing WRF and WPS using the `wrf_setup.sh` script, download all necessary files into the following directories:
 
-'env_var.sh' needs to be run first, it sets the necessary paths and sources them to bashrc. Then run data.sh which downloads the necessary Terrestrial data files required by geogrid, it takes up 28GB and approx. 40 minutes to run. These 2 steps need to be done only once in your environment.
+```
+WRF/
+├── Build_WRF/
+│   └── LIBRARIES/
+├── TESTS/
+│   └── system_environment_and_variables_test/
+├── DATA/
+│   └── Man_Static_hres/  # Contains static data referred in namelist.wps
+├── WRF/
+│   └── test/
+│       └── em_real/
+│           ├── main.exe
+│           ├── real.exe
+│           └── namelist.input
+├── WPS/
+│   ├── ungrib.exe
+│   ├── geogrid.exe
+│   ├── metgrid.exe
+│   └── namelist.wps
+└── SCRIPTS/
+    ├── data.sh
+    ├── env_var.sh
+    ├── run_sim.sh
+    └── test_sim.sh
+```
 
-3. **Navigate to the `scripts` directory**  
+### Steps to Run a Simulation
+
+1. **Set Up Environment Variables**
+   Run `env_var.sh` to set the necessary paths and source them to `.bashrc`.
    ```bash
    cd scripts
+   ./env_var.sh
+   ```
+
+2. **Download Terrestrial Data**
+   Run `data.sh` to download the required terrestrial data files (~28 GB, ~3 hours to download).
+   ```bash
+   ./data.sh
+   ```
+   This step is required only once in your environment.
+
+3. **Run the Simulation**
+   Run the simulation using `run_sim.sh`. This script takes around 40 minutes.
+   ```bash
    ./run_sim.sh
-This script takes around 1 hour.
+   ```
 
-4. **Expected Output**
-wrfout_d01_2016-10-06_00:00:00 generated and verified successfully.
+4. **Verify the Simulation**
+   Check for the generated output file `wrfout_d01_2016-10-06_00:00:00` and verify it.
+   ```bash
+   ./test_sim.sh
+   ```
 
-The script will execute the necessary WRF and WPS programs in the following order: ungrib, geogrid, metgrid, real (inside wrf.sh), and wrf. It will also ensure the correct environment variables are set and that the required terrestrial data is downloaded (~28 GB).
+This script executes the necessary WRF and WPS programs in the following order: `ungrib`, `geogrid`, `metgrid`, `real`, and `wrf`. It also ensures the correct environment variables are set and that the required terrestrial data is downloaded.
 
 ---
+
+## Acknowledgments
+I extend my gratitude to Prof. Nipun Batra and Zeel Patel for their guidance and support.
 

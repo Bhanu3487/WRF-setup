@@ -153,5 +153,5 @@ This script executes the necessary WRF and WPS programs in the following order: 
 ---
 
 ## Acknowledgments
-I extend my gratitude to Prof. Nipun Batra and Zeel Patel for their guidance and support.
+I sincerely thank Prof. Nipun Batra for his invaluable guidance, Zeel Patel for his dedicated support, and Jigisha for her crucial help with installations, all instrumental to this project's success.
 
